@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
-    private CharacterController controller; // Uses the Character Controller Component
+    private CharacterController controller;
     [SerializeField] private Transform playerCam;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 5f;
-    //[SerializeField] private float turnSpeed = 2f;
+    [SerializeField] private float sprintSpeed = 9f;
 
+    [Header("Jump & Gravity")]
+    public float jumpHeight = 1.5f;
+    public float gravity = -9.81f;
+    private Vector3 playerVelocity;
+    private bool isGrounded;
 
     [Header("Input")]
     private float moveInput;
@@ -22,54 +26,65 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sensitivity = 100f;
     private float xRotation = 0f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Locks cursor to screen
-        Cursor.visible = false; // Makes Cursor Invisible
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         controller = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-       ManageInput();
-       Movement();
+        ManageInput();
+        Movement();
     }
 
     private void Movement()
     {
         GroundMovement();
+        ApplyGravityAndJump();
     }
 
     private void GroundMovement()
     {
-        // Handle Movement while on the ground
+        // Check if sprinting (Left Shift)
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+
         Vector3 move = transform.forward * moveInput + transform.right * turnInput;
+
+        controller.Move(move * currentSpeed * Time.deltaTime);
+    }
+
+    private void ApplyGravityAndJump()
+    {
+        isGrounded = controller.isGrounded;
+
+        if (isGrounded && playerVelocity.y < 0)
+            playerVelocity.y = -2f;
+
+        if (Input.GetButtonDown("Jump")  && isGrounded)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        playerVelocity.y += gravity * Time.deltaTime;
+
+        controller.Move(playerVelocity* Time.deltaTime);
         
-        move.y = -1f; // Prevents player from floating off the ground
-        
-        controller.Move(move * walkSpeed* Time.deltaTime); // Makes movement not depend on frame rate
     }
 
     private void ManageInput()
     {
-        // Handles Inputs for Movement and Turning
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
 
-        //Get Mouse Input
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-        //Rotates Camera Up & Down 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         playerCam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        //Rotates Player Left & Right
         transform.Rotate(Vector3.up * mouseX);
     }
-
-   
 }
