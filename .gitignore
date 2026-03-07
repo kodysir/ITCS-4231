@@ -1,9 +1,11 @@
 # Excluded folders
 /.vs/
-/Temp
+[Tt]emp/
 [Bb]in/
 [Bb]uild/
 [Ll]ibrary/
+[Ll]ogs/
+UserSettings/
 [Mm]ods/
 [Oo]bj/
 [Rr]elease*/
