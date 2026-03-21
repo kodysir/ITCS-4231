@@ -41,23 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        GroundMovement();
-        ApplyGravityAndJump();
-    }
-
-    private void GroundMovement()
-    {
-        // Check if sprinting (Left Shift)
-        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
-
-        Vector3 move = transform.forward * moveInput + transform.right * turnInput;
-
-        controller.Move(move * currentSpeed * Time.deltaTime);
-    }
-
-    private void ApplyGravityAndJump()
-    {
-        isGrounded = controller.isGrounded;
+        //ApplyGravityAndJump & GroundMovement
+        bool isGrounded = controller.isGrounded;
 
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = -2f;
@@ -69,9 +54,19 @@ public class PlayerMovement : MonoBehaviour
 
         playerVelocity.y += gravity * Time.deltaTime;
 
-        controller.Move(playerVelocity* Time.deltaTime);
-        
+        //MovementSpeed
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+
+        //HorizontalMovement
+        Vector3 move = transform.forward * moveInput + transform.right * turnInput;
+        move = Vector3.ClampMagnitude(move, 1f);
+
+        Vector3 finalMove = move * currentSpeed;
+        finalMove.y = playerVelocity.y;
+
+        controller.Move(finalMove * Time.deltaTime);
     }
+
 
     private void ManageInput()
     {
