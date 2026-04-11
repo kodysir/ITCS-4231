@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
     private CharacterController controller;
-    [SerializeField] private Transform playerCam;
+    [SerializeField] private Transform playerCam; //Eyes
+    [SerializeField] private Transform Hand; // Hand
+
+    [Header("Interaction Settings")]
+    [SerializeField] private float reachDistance = 5f;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    private GameObject heldObj;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 5f;
@@ -16,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 1.5f;
     public float gravity = -9.81f;
     private Vector3 playerVelocity;
-    private bool isGrounded;
 
     [Header("Input")]
     private float moveInput;
@@ -37,6 +43,11 @@ public class PlayerMovement : MonoBehaviour
     {
         ManageInput();
         Movement();
+
+        if (Input.GetKeyDown(interactKey))
+        {
+            HandleInteraction();
+        }
     }
 
     private void Movement()
@@ -82,4 +93,74 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Rotate(Vector3.up * mouseX);
     }
+
+    private void HandleInteraction()
+    {
+        if (heldObj == null)
+        {
+            Vector3 rayStart = playerCam.position + (playerCam.forward * 0.5f);
+            RaycastHit hit;
+
+            //Using a Spherecast, the Raycast was too thin
+            if (Physics.SphereCast(rayStart, 0.2f, playerCam.forward, out hit, reachDistance))
+            {
+                //Interact with Food
+                if (hit.transform.CompareTag("pickup"))
+                {
+                    PickUpObject(hit.transform.gameObject);
+                }
+
+                //Interact with Customer
+                else if (hit.transform.CompareTag("Customer"))
+                {
+                    Debug.Log("Hit the Customer!");
+                    CustomerAI customer = hit.transform.GetComponent<CustomerAI>();
+                    
+                    if (customer != null)
+                    {
+                        Debug.Log("Found the Script! Starting Order...");
+                        customer.StartOrder();
+                    }
+                    else
+                    {
+                        Debug.LogError("Found Customer, but NO CustomerAI script on it!");
+                    }
+                }
+            }
+        }
+        else
+        {
+            DropObject();
+        }
+    }
+
+    private void PickUpObject(GameObject obj)
+    {
+        heldObj = obj;
+        
+        heldObj.transform.SetParent(Hand);
+        
+        heldObj.transform.localPosition = Vector3.zero;
+        heldObj.transform.localRotation = Quaternion.identity;
+
+        Rigidbody rb = heldObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+    }
+
+    private void DropObject()
+    {
+        heldObj.transform.SetParent(null);
+
+        Rigidbody rb = heldObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
+
+        heldObj = null;
+    }
+    
 }

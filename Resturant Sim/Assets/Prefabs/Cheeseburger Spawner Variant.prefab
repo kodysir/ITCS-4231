@@ -74,6 +74,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4379014054837484391, guid: f44bcc1cd748ebd4f9bac23cb154d11d,
+        type: 3}
+      propertyPath: _data._objectReferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c3a5aa04857ceb48946d5e444c791cf,
+        type: 2}
     - target: {fileID: 6880990595718943621, guid: f44bcc1cd748ebd4f9bac23cb154d11d,
         type: 3}
       propertyPath: m_Name
@@ -84,35 +90,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fc6a4286073eb8f4582363cd21f43649, type: 2}
-    m_RemovedComponents:
-    - {fileID: 4379014054837484391, guid: f44bcc1cd748ebd4f9bac23cb154d11d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6880990595718943621, guid: f44bcc1cd748ebd4f9bac23cb154d11d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6307285994533767384}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f44bcc1cd748ebd4f9bac23cb154d11d, type: 3}
---- !u!1 &2906324371206369597 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6880990595718943621, guid: f44bcc1cd748ebd4f9bac23cb154d11d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8587070241323967160}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6307285994533767384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2906324371206369597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2fe5546f775c47d2820aa5e8a715f53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
-    _objectReferences:
-    - {fileID: 11400000, guid: 5c3a5aa04857ceb48946d5e444c791cf, type: 2}

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - FoodSpawner
+  - pickup
+  - Customer
+  - PlayerView
   layers:
   - Default
   - TransparentFX
