@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform Hand; // Hand
 
     [Header("Interaction Settings")]
-    [SerializeField] private float reachDistance = 5f;
+    [SerializeField] private float reachDistance = 6f;
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     private GameObject heldObj;
 
@@ -136,10 +136,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void PickUpObject(GameObject obj)
     {
+
         heldObj = obj;
         
         heldObj.transform.SetParent(Hand);
-        
         heldObj.transform.localPosition = Vector3.zero;
         heldObj.transform.localRotation = Quaternion.identity;
 
