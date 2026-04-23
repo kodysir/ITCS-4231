@@ -14,7 +14,7 @@ public class CustomerAI : MonoBehaviour
 
     [Header("Order Settings")]
     private string currentOrder;
-    private string[] menu = { "Grilled Cheese", "Hamburger", "Cheese Burger" };
+    private string[] menu = {"Grilled Cheese", "Hamburger", "Cheese Burger" };
 
     // Start is called before the first frame update
     void Start()
