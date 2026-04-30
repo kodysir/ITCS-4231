@@ -11,6 +11,7 @@ public class CustomerAI : MonoBehaviour
     public Transform orderWindow; // Drag the "Window" target here
     public GameObject canvasUI;   // Drag the "Canvas" child here
     public TextMeshProUGUI orderTextDisplay;
+    public Transform exitPoint;
 
     [Header("Order Settings")]
     private string currentOrder;
@@ -40,6 +41,11 @@ public class CustomerAI : MonoBehaviour
         {
             orderTextDisplay.text = currentOrder;
             canvasUI.SetActive(true);
+            OrderButton theButton = FindObjectOfType<OrderButton>();
+            if (theButton != null)
+            {
+                theButton.SetActiveCustomer(this);
+            }
             Debug.Log("Customer ordered: " + currentOrder);
         }
     }
@@ -47,5 +53,32 @@ public class CustomerAI : MonoBehaviour
     public string GetOrder()
     {
         return currentOrder;
+    }
+
+    public void Leave(bool isCorrect)
+    {
+        if (isCorrect) {
+            orderTextDisplay.text = "Delicious! Thanks!";
+        } else {
+            orderTextDisplay.text = "This isn't my order.";
+        }
+
+        if (exitPoint != null)
+        {
+            //Go to the exit
+            agent.SetDestination(exitPoint.position);
+        }
+
+        //Check if the customer reaches the exit
+        InvokeRepeating("CheckIfReachedExit", 1f, 1f);
+    }
+
+    void CheckIfReachedExit()
+    {
+        //If the distance is close to 0
+        if (agent.remainingDistance <= 0.5f && !agent.pathPending)
+        {
+            Destroy(gameObject); // Despawns the customer
+        }
     }
 }

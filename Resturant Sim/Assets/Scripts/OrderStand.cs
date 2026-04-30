@@ -15,12 +15,6 @@ public class OrderStand : MonoBehaviour
     {
        if (other.CompareTag("pickup"))
         {
-            Rigidbody rigidbody = other.GetComponent<Rigidbody>();
-            if (rigidbody != null)
-            {
-                rigidbody.WakeUp();
-            }
-
             if (!foodInZone.Contains(other.gameObject))
             {
                 foodInZone.Add(other.gameObject);
@@ -33,9 +27,33 @@ public class OrderStand : MonoBehaviour
     {
         if (other.CompareTag("pickup"))
         {
-            foodInZone.Remove(other.gameObject);
-            Debug.Log(other.name + " is not on the counter");
+            if (foodInZone.Contains(other.gameObject))
+            {
+                foodInZone.Remove(other.gameObject);
+                Debug.Log(other.name + " is not on the counter");
+            }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("pickup"))
+        {
+            if (!foodInZone.Contains(other.gameObject))
+            {
+                foodInZone.Add(other.gameObject);
+                Debug.Log(other.name + " is added to the counter");
+            }
+        }
+    }
+
+    public void ClearCounter()
+    {
+        foreach (GameObject food in foodInZone)
+        {
+            Destroy(food);
+        }
+        foodInZone.Clear();
     }
 
 }

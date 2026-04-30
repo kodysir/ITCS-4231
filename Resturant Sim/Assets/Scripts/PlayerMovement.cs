@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float reachDistance = 6f;
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     private GameObject heldObj;
+   
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 5f;
@@ -126,6 +127,17 @@ public class PlayerMovement : MonoBehaviour
                         Debug.LogError("Found Customer, but NO CustomerAI script on it!");
                     }
                 }
+                else if (hit.transform.CompareTag("Button"))
+                {
+                    Debug.Log("I am looking at the Button!");
+                    OrderButton hitButton = hit.transform.GetComponent<OrderButton>();
+
+                    if(hitButton != null)
+                    {
+                        Debug.Log("Found the script, calling Submit...");
+                        hitButton.SubmitOrder();
+                    }
+                }
             }
         }
         else
@@ -138,6 +150,13 @@ public class PlayerMovement : MonoBehaviour
     {
 
         heldObj = obj;
+
+        OrderStand standScript = FindObjectOfType<OrderStand>();
+        if (standScript != null && standScript.foodInZone.Contains(obj))
+        {
+            standScript.foodInZone.Remove(obj);
+            Debug.Log("Manually removed " + obj.name + " from list upon pickup.");
+        }
         
         heldObj.transform.SetParent(Hand);
         heldObj.transform.localPosition = Vector3.zero;
@@ -158,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
         if (rb != null)
         {
             rb.isKinematic = false;
+            rb.WakeUp();
         }
 
         heldObj = null;
