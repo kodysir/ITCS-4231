@@ -8,6 +8,7 @@
 UserSettings/
 [Mm]ods/
 [Oo]bj/
+/[Vv]isualStudio/
 [Rr]elease*/
 Packages/MSTest*
 Packages/NUnit*
@@ -29,6 +30,7 @@ sysinfo.txt
 *.aps
 *.pch
 *.vspscc
+*.sln
 * _i.c
 * _p.c
 *.ncb
