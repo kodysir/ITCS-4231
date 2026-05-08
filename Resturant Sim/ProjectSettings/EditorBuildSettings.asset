@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Vehicles.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/Title Screen.unity
+    guid: 17bb8bd74df7de44a93931b49bdf647d
+  - enabled: 1
+    path: Assets/Scenes/Game Instructions.unity
+    guid: 284f0d936904c1347a531e1b06ca9915
+  - enabled: 1
     path: Assets/Scenes/AI Navigation.unity
     guid: 8a41d79c9ccfee5489792d595abe331b
   - enabled: 1
-    path: Assets/Scenes/Title Screen.unity
-    guid: 17bb8bd74df7de44a93931b49bdf647d
+    path: Assets/Scenes/WinScreen.unity
+    guid: 3d1267ac7c9151a4b8818f1c34cbf100
   m_configObjects: {}

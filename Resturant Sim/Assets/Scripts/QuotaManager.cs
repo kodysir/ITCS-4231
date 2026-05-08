@@ -9,9 +9,9 @@ public class QuotaManager : MonoBehaviour
     public TextMeshPro quotaText;
     public GameObject continueMenu;
 
-    private int currentQuota = 50;
-    private int quotaIncrement = 100;
-    private int maxQuota = 950;
+    private int currentQuota = 10;
+    private int quotaIncrement = 110;
+    private int maxQuota = 1000;
     private int totalEarnedThisRound = 0;
     private bool quotaReached = false;
 
@@ -29,6 +29,12 @@ public class QuotaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Quitting Game");
+            UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
+        }
         // Always update the text: "Current / Target"
         quotaText.text = "Quota: $" + totalEarnedThisRound + " / $" + currentQuota;
 
@@ -36,6 +42,11 @@ public class QuotaManager : MonoBehaviour
         if (totalEarnedThisRound >= currentQuota && !quotaReached)
         {
             ReachQuota();
+        }
+
+        if(totalEarnedThisRound >= 1000)
+        {
+            SceneManager.LoadScene("WinScreen");
         }
     }
 
@@ -48,10 +59,10 @@ public class QuotaManager : MonoBehaviour
     void ReachQuota()
     {
         quotaReached = true;
-        Time.timeScale = 0f; // Optional: Pause the game while they decide
-        continueMenu.SetActive(true);
-        Cursor.lockState = CursorLockMode.None; // Make sure they can click the button
-        Cursor.visible = true;
+        Debug.Log("Quota reached! Moving to next round automatically.");
+
+        // Instead of showing the menu, just call the logic directly
+        ContinueToNextRound(); 
     }
 
     public void ContinueToNextRound()
@@ -61,22 +72,22 @@ public class QuotaManager : MonoBehaviour
 
         if (currentQuota < maxQuota)
         {
-            currentQuota += quotaIncrement;
-            
-            // Resume the game
-            continueMenu.SetActive(false);
-            Time.timeScale = 1f; 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            
-            
-            Debug.Log("Next Round Started! New Quota: $" + currentQuota);
+            currentQuota += quotaIncrement; 
+        
+            // Only update the wall text if it actually exists
+            if (quotaText != null)
+            {
+                quotaText.text = "Quota: $" + totalEarnedThisRound + " / $" + currentQuota;
+            }
         }
-        else
+    
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if(continueMenu != null)
         {
-            Debug.Log("Final Quota Reached! You Win!");
-            // You could load a win screen here
-            SceneManager.LoadScene("WinScreen");
+            continueMenu.SetActive(false);
         }
     }
 
@@ -99,4 +110,7 @@ public class QuotaManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
+
+   
 }
+
