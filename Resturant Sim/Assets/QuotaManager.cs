@@ -17,7 +17,7 @@ public class QuotaManager : MonoBehaviour
 
     [Header("End ShifT")]
     public GameObject summaryMenu;
-    public TextMeshPro collectionText;
+    public TextMeshProUGUI collectionText;
 
 
     // Start is called before the first frame update
@@ -56,11 +56,12 @@ public class QuotaManager : MonoBehaviour
 
     public void ContinueToNextRound()
     {
+        totalEarnedThisRound = 0;
+        quotaReached = false;
+
         if (currentQuota < maxQuota)
         {
             currentQuota += quotaIncrement;
-            totalEarnedThisRound = 0; // Reset for the new round
-            quotaReached = false;
             
             // Resume the game
             continueMenu.SetActive(false);
@@ -81,6 +82,7 @@ public class QuotaManager : MonoBehaviour
 
     public void EndShiftEarly()
     {
+        continueMenu.SetActive(false);
         Time.timeScale = 0f;
         collectionText.text = "Shift Ended! You collected: $" + totalEarnedThisRound;
 
