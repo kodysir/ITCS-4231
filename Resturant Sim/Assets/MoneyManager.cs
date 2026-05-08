@@ -18,6 +18,18 @@ public class MoneyManager : MonoBehaviour
     {
         totalMoney += amount;
         moneyText.text = "$" + totalMoney.ToString();
+
+        //Updates the Money To the quota.
+        QuotaManager quota = FindObjectOfType<QuotaManager>();
+        if (quota != null)
+        {
+            quota.AddToQuotaProgress(amount);
+        }
         Debug.Log("Transaction Complete! New Balance: $" + totalMoney);
+    }
+
+    public int GetTotalMoney()
+    {
+        return totalMoney;
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using Unity.VisualScripting;
+using Cinemachine;
+using UnityEditor;
 
 public class CustomerAI : MonoBehaviour
 {
@@ -14,8 +17,12 @@ public class CustomerAI : MonoBehaviour
     public Transform exitPoint;
 
     [Header("Order Settings")]
-    private string currentOrder;
-    private string[] menu = {"Grilled Cheese", "Hamburger", "Cheese Burger" };
+    public List<string> orderList = new List<string>();
+    public string[] menu = {"Grilled Cheese", "Hamburger", "Cheese Burger" };
+
+    [Header("Amount")]
+    public int minItems = 1;
+    public int maxItems = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +37,23 @@ public class CustomerAI : MonoBehaviour
         }
 
         // 3. Pre-roll the random order (hidden from player)
-        int randomIndex = Random.Range(0, menu.Length);
-        currentOrder = menu[randomIndex];
+        GenerateOrder();
+    }
+
+    public virtual void GenerateOrder()
+    {
+        orderList.Clear();
+        int amountToOrder = Random.Range(minItems, maxItems);
+
+        for(int i = 0; i < amountToOrder; i++)
+        {
+            int orderVal = Random.Range(0, menu.Length);
+            string selectedFood = menu[orderVal];
+            orderList.Add(selectedFood);
+            Debug.Log("Rolled a " + orderVal + " which is " + selectedFood);
+        }
+
+        
     }
 
     public void StartOrder()
@@ -39,20 +61,20 @@ public class CustomerAI : MonoBehaviour
         // Only show order if the customer is close to the window
         if (agent.remainingDistance <= 1.0f)
         {
-            orderTextDisplay.text = currentOrder;
+            orderTextDisplay.text = string.Join("\n", orderList);
             canvasUI.SetActive(true);
             OrderButton theButton = FindObjectOfType<OrderButton>();
             if (theButton != null)
             {
                 theButton.SetActiveCustomer(this);
             }
-            Debug.Log("Customer ordered: " + currentOrder);
+            Debug.Log("Customer ordered: " + orderList);
         }
     }
 
-    public string GetOrder()
+    public List<string> GetOrderList()
     {
-        return currentOrder;
+        return orderList;
     }
 
     public void Leave(bool isCorrect)
