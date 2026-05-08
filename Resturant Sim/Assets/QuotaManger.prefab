@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8595304580026901561}
-  - component: {fileID: 8368490417362461410}
+  - component: {fileID: 729792092993922099}
   m_Layer: 0
   m_Name: QuotaManger
   m_TagString: Untagged
@@ -26,14 +26,14 @@ Transform:
   m_GameObject: {fileID: 8808999177345477412}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38, y: 4.35, z: 40.02}
+  m_LocalPosition: {x: 51.6, y: 7.3, z: 96.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7181537989345551784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8368490417362461410
+--- !u!114 &729792092993922099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quotaText: {fileID: 0}
-  continueMenu: {fileID: 4821306419557946089, guid: e0039dcc5f3885d4d8d0eb721ee9c20d,
-    type: 3}
+  continueMenu: {fileID: 0}
+  summaryMenu: {fileID: 0}
+  collectionText: {fileID: 0}
 --- !u!1 &9069530232741996649
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9069530232741996649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -40.02}
+  m_LocalPosition: {x: 0, y: 0, z: -45.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -82,7 +83,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -38, y: -4.35}
+  m_AnchoredPosition: {x: -23.8, y: -4.35}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7902836159985773985

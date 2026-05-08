@@ -9,7 +9,7 @@ public class QuotaManager : MonoBehaviour
     public TextMeshPro quotaText;
     public GameObject continueMenu;
 
-    private int currentQuota = 10;
+    private int currentQuota = 50;
     private int quotaIncrement = 100;
     private int maxQuota = 950;
     private int totalEarnedThisRound = 0;
